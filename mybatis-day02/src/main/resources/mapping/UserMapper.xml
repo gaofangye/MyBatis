@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gaole.mybatis.mapper.UserMapper">
+
+    <!--使用SQL片段-->
+    <sql id="selector">
+        select * from USER
+    </sql>
+
+    <!--根据包装类型,模糊查询-->
+    <select id="findByQueryVo" parameterType="com.gaole.mybatis.entity.QueryVo"
+            resultType="com.gaole.mybatis.entity.User">
+        <include refid="selector"/>
+        where username LIKE "%"#{user.username}"%";
+    </select>
+
+    <!--返回记录的总数-->
+    <select id="countUser" resultType="java.lang.Integer">
+        select count(1) from USER;
+    </select>
+
+    <!--通过性别和名字来查询数据-->
+    <select id="findBySexAndUsername" parameterType="com.gaole.mybatis.entity.User"
+            resultType="com.gaole.mybatis.entity.User">
+        <include refid="selector"/>
+        <where>
+            <if test="sex != null and sex != ''">
+                and sex = #{sex}
+            </if>
+
+            <if test="username != null and username != ''">
+                and username like "%"#{username}"%";
+            </if>
+        </where>
+    </select>
+
+    <!--通过多个id来获取User对象-->
+    <select id="findByIds" parameterType="com.gaole.mybatis.entity.QueryVo" resultType="com.gaole.mybatis.entity.User">
+        <include refid="selector"/>
+        <where>
+            id in
+            -- 遍历集合
+            <!--<foreach collection="listIds" item="id" open="(" close=")" separator=",">-->
+            <!--#{id}-->
+            <!--</foreach>-->
+
+            -- 遍历数组
+            <!--<foreach collection="arrayIds" item="id" open="(" close=")" separator=",">-->
+            <!--#{id}-->
+            <!--</foreach>-->
+
+            -- 传递的参数就是一个list集合,而不是一个对象
+            <!--<foreach collection="list" item="id" open="(" close=")" separator=",">-->
+            <!--#{id}-->
+            <!--</foreach>-->
+
+            -- 传递的参数是一个array,而不是一个对象
+            <foreach collection="array" item="id" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+
+
+</mapper>

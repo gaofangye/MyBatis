@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gaole.mybatis.mapper.OrdersMapper">
+
+    <resultMap id="orders" type="com.gaole.mybatis.entity.Orders">
+        <result column="user_id" property="userId"></result>
+    </resultMap>
+
+    <!--查询订单表中的所有数据-->
+    <select id="findAll" resultMap="orders">
+        select * from ORDERS;
+    </select>
+
+    <!--多表关联-->
+    <!--一对一关联-->
+    <resultMap id="order" type="com.gaole.mybatis.entity.Orders">
+        <!--本类对象中所需要的值,就写,不要就不写-->
+        <result column="id" property="id"></result>
+        <result column="user_id" property="userId"></result>
+        <result column="number" property="number"></result>
+        <result column="createtime" property="createtime"></result>
+        <!--关联的对象-->
+        <association property="user" javaType="com.gaole.mybatis.entity.User">
+            <result column="username" property="username"></result>
+        </association>
+    </resultMap>
+    <select id="queryOrdersUser" resultMap="order">
+        select
+        o.id,
+        o.user_id,
+        o.number,
+        o.createtime,
+        u.username
+        from
+        orders o
+        inner JOIN
+        User u
+        where
+        o.user_id = u.id;
+    </select>
+</mapper>
