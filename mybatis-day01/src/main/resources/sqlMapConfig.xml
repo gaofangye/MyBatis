@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTDConfig 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--引入外部数据库连接配置文件-->
+    <properties resource="db.properties"/>
+
+    <!--配置别名-->
+    <typeAliases>
+        <!--明确指定某个POJO类的 别名-->
+        <!--<typeAlias type="com.leoglenn.mybatis.entity.User" alias="User" />-->
+
+        <!--使用该配置,需要保证该包下的都是POJO类,否则可能会出现错误-->
+        <!--给该包下的所有POJO类都设置别名-->
+        <package name="com.leoglenn.mybatis.entity"/>
+    </typeAliases>
+
+    <!--spring 整合后 environments 配置将会被废除-->
+    <environments default="development">
+        <environment id="development">
+            <!--配置JDBC事务管理-->
+            <transactionManager type="JDBC"></transactionManager>
+            <!--数据库连接池-->
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.user}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!--加载映射文件-->
+    <mappers>
+        <mapper resource="mapping/User.xml"/>
+    </mappers>
+</configuration>

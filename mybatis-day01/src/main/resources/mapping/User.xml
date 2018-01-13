@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--写SQL语句-->
+<mapper namespace="com.leoglenn.mybatis.mapper.UserMapper">
+    <!--根据id获取用户-->
+    <select id="findUserById" parameterType="Integer" resultType="User">
+        SELECT * FROM USER WHERE id = #{v};
+    </select>
+
+
+    <!--根据用户名进行模糊查询-->
+    <select id="findUserByUsername" parameterType="String" resultType="com.leoglenn.mybatis.entity.User">
+--         方式一
+--         SELECT * FROM USER WHERE username LIKE '%${value}%';
+--         方式二:该方法可以解决SQL诸如问题
+        SELECT * FROM USER WHERE username LIKE "%"#{v}"%"
+    </select>
+
+    <!--添加用户-->
+    <insert id="insertUser" parameterType="com.leoglenn.mybatis.entity.User">
+        <selectKey keyColumn="id" keyProperty="id" resultType="Integer" order="AFTER">
+            SELECT last_insert_id();
+        </selectKey>
+        insert into USER (username, birthday, sex, address) VALUES (#{username},#{birthday},#{sex},#{address});
+    </insert>
+
+    <!--修改用户-->
+    <update id="updateUserById" parameterType="com.leoglenn.mybatis.entity.User">
+        update USER SET username = #{username},birthday = #{birthday},sex = #{sex},address = #{address} WHERE id = #{id};
+    </update>
+
+    <!--删除用户-->
+    <delete id="deleteUserById" parameterType="com.leoglenn.mybatis.entity.User">
+        delete from USER where id = #{id};
+    </delete>
+    <!--删除用户方式二-->
+    <delete id="deleteUserById2" parameterType="Integer">
+        delete from USER where id = #{id};
+    </delete>
+</mapper>
