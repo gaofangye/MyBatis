@@ -63,5 +63,38 @@
         </where>
     </select>
 
+    <resultMap id="user" type="com.gaole.mybatis.entity.User">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="birthday" property="birthday"/>
+        <result column="sex" property="sex"/>
+        <result column="address" property="address"/>
+
+        <collection property="orders" javaType="list" ofType="com.gaole.mybatis.entity.Orders">
+            <id column="id" property="id"/>
+            <result column="number" property="number"/>
+            <result column="createtime" property="createtime"/>
+            <result column="note" property="note"/>
+        </collection>
+    </resultMap>
+    <!--多表关联,一对多查询-->
+    <select id="queryUserOrders" resultMap="user">
+      select
+        u.id,
+        u.username,
+        u.birthday,
+        u.sex,
+        u.address,
+        o.id,
+        o.number,
+        o.createtime,
+        o.note
+      from
+        user u
+      inner JOIN
+        orders o
+      where
+        o.user_id = u.id;
+    </select>
 
 </mapper>

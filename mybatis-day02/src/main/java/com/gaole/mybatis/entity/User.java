@@ -2,6 +2,7 @@ package com.gaole.mybatis.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Administrator
@@ -23,6 +24,15 @@ public class User implements Serializable {
      */
     private String address;
 
+    private List<Orders> orders;
+
+    public List<Orders> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Orders> orders) {
+        this.orders = orders;
+    }
 
     public Integer getId() {
         return id;

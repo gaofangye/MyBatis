@@ -47,4 +47,6 @@ public interface UserMapper {
     List<User> findByIds(List<Integer> ids);
 
     List<User> findByIds(Integer[] ids);
+
+    List<User> queryUserOrders();
 }

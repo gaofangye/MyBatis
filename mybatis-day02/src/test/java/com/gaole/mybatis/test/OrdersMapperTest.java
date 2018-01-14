@@ -1,6 +1,7 @@
 package com.gaole.mybatis.test;
 
 import com.gaole.mybatis.entity.Orders;
+import com.gaole.mybatis.entity.User;
 import com.gaole.mybatis.mapper.OrdersMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -48,5 +49,15 @@ public class OrdersMapperTest {
         for (Orders order : orders) {
             System.out.println(order);
         }
+    }
+
+    @Test
+    public void test3() {
+        OrdersMapper ordersMapper = sqlSession.getMapper(OrdersMapper.class);
+        List<User> users = ordersMapper.queryUserOrders();
+        for (User user : users) {
+            System.out.println(user + "," + user.getOrders());
+        }
+
     }
 }

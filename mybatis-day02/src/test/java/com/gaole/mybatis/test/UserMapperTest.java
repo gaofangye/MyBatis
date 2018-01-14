@@ -161,4 +161,15 @@ public class UserMapperTest {
             System.out.println(byId);
         }
     }
+
+    @Test
+    public void test6() {
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+
+        List<User> users = mapper.queryUserOrders();
+        for (User user : users) {
+            System.out.println(user + "-" + user.getOrders());
+        }
+
+    }
 }

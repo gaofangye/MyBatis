@@ -1,6 +1,7 @@
 package com.gaole.mybatis.mapper;
 
 import com.gaole.mybatis.entity.Orders;
+import com.gaole.mybatis.entity.User;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface OrdersMapper {
     public List<Orders> findAll();
 
     List<Orders> queryOrdersUser();
+
+    List<User> queryUserOrders();
 }
